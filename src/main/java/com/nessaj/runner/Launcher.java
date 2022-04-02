@@ -22,10 +22,13 @@ public class Launcher {
 
     private List<JarArchive> jarArchives;
     private URL[] urls;
+    private final String localDirectory;
+
+    public Launcher(String localDirectory) {
+        this.localDirectory = localDirectory;
+    }
 
     public void launch(String[] args) {
-//        JarLoader jarLoader = new JarLoader("E:/etc/demo1");
-        String localDirectory = "E:\\etc\\demo1";
         JarLoader jarLoader = new JarLoader(localDirectory);
         try {
             jarArchives = jarLoader.loadJarFiles();
@@ -93,7 +96,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher();
+        Launcher launcher = new Launcher("E:\\etc\\demo1");
         launcher.launch(args);
     }
 
