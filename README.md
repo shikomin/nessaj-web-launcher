@@ -11,6 +11,5 @@ public class JavaLauncherTest{
         launcher.launch(args);
     }
     
-}
-```java
+}```java
 
