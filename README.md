@@ -7,7 +7,7 @@ java-launcher 可以帮你动态启动一个springboot工程
 public class JavaLauncherTest{
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher("E:\\etc\\demo1");
+        Launcher launcher = new Launcher("E:\\etc\\springboot-demo");
         launcher.launch(args);
     }
     
