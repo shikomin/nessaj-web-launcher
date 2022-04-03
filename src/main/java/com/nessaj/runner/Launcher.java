@@ -2,6 +2,7 @@ package com.nessaj.runner;
 
 
 import com.nessaj.runner.exception.MainClassNotFound;
+import com.nessaj.runner.utils.ConfigReader;
 import com.nessaj.runner.utils.FilePathHandler;
 
 import java.io.File;
@@ -11,6 +12,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author keming
@@ -18,9 +20,10 @@ import java.util.List;
  */
 public class Launcher {
 
+    private static final String LAUNCH_PATH_IN_PROPERTIES = "launch.path";
+    private final String localDirectory;
     private List<JarArchive> jarArchives;
     private URL[] urls;
-    private final String localDirectory;
 
     public Launcher(String localDirectory) {
         this.localDirectory = localDirectory;
@@ -97,7 +100,8 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Launcher launcher = new Launcher("E:\\etc\\demo1");
+        Properties properties = ConfigReader.getDefaultConfigReader().getProperties();
+        Launcher launcher = new Launcher(properties.get(LAUNCH_PATH_IN_PROPERTIES).toString());
         launcher.launch(args);
     }
 
