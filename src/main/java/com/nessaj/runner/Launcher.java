@@ -21,12 +21,22 @@ import java.util.Properties;
 public class Launcher {
 
     private static final String LAUNCH_PATH_IN_PROPERTIES = "launch.path";
+    private static final String LOCAL_CONFIG_PATH = "/config/launcher.properties";
+
     private final String localDirectory;
     private List<JarArchive> jarArchives;
     private URL[] urls;
 
     public Launcher(String localDirectory) {
         this.localDirectory = localDirectory;
+    }
+
+    public static void start(String[] args) {
+        String local_path = FilePathHandler.getLocation(Launcher.class);
+        String local_config_path = local_path.substring(1, local_path.lastIndexOf("/bin")) + LOCAL_CONFIG_PATH;
+        Properties properties = ConfigReader.getConfigReader(local_config_path).getProperties();
+        Launcher launcher = new Launcher(properties.get(LAUNCH_PATH_IN_PROPERTIES).toString());
+        launcher.launch(args);
     }
 
     public void launch(String[] args) {
@@ -37,7 +47,6 @@ public class Launcher {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(Arrays.toString(urls));
         ClassLoader classLoader = createClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
         MainClassRunner runner = new MainClassRunner(localDirectory, args);
@@ -46,7 +55,6 @@ public class Launcher {
         } catch (MainClassNotFound | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        System.out.println("done");
     }
 
     /**
@@ -87,7 +95,6 @@ public class Launcher {
         int size = urls.length;
         for (int i = 0; i < size; i++) {
             String filePath = urls[i].getPath();
-            System.out.println("filepath:" + filePath);
             if (filePath.endsWith("classes/")) {
                 return new File(filePath);
             }
@@ -100,9 +107,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        Properties properties = ConfigReader.getDefaultConfigReader().getProperties();
-        Launcher launcher = new Launcher(properties.get(LAUNCH_PATH_IN_PROPERTIES).toString());
-        launcher.launch(args);
+        Launcher.start(args);
     }
 
 }

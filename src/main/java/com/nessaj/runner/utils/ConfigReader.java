@@ -2,6 +2,9 @@ package com.nessaj.runner.utils;
 
 import com.nessaj.runner.Launcher;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -12,28 +15,58 @@ import java.util.Properties;
  */
 public class ConfigReader {
 
-    private static ConfigReader defaultConfigReader;
+    private static final String DEFAULT_PATH = "/launcher.properties";
+    private static ConfigReader configReader;
     private Properties properties;
 
     private ConfigReader() {
+        this(Launcher.class.getResourceAsStream(DEFAULT_PATH));
+    }
+
+    private ConfigReader(String path) {
+        this(readPath(path));
+    }
+
+    private ConfigReader(InputStream inputStream) {
         this.properties = new Properties();
-        InputStream inputStream = Launcher.class.getResourceAsStream("/launcher.properties");
         try {
             properties.load(inputStream);
+            inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static ConfigReader getDefaultConfigReader() {
-        if (defaultConfigReader == null) {
+    private static InputStream readPath(String path) {
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
+    }
+
+    public static ConfigReader getConfigReader() {
+        if (configReader == null) {
             synchronized (ConfigReader.class) {
-                if (defaultConfigReader == null) {
-                    defaultConfigReader = new ConfigReader();
+                if (configReader == null) {
+                    configReader = new ConfigReader();
                 }
             }
         }
-        return defaultConfigReader;
+        return configReader;
+    }
+
+    public static ConfigReader getConfigReader(String path) {
+        if (configReader == null) {
+            synchronized (ConfigReader.class) {
+                if (configReader == null) {
+                    configReader = new ConfigReader(path);
+                }
+            }
+        }
+        return configReader;
     }
 
     public Properties getProperties() {

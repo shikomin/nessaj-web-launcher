@@ -26,9 +26,12 @@ public class JarArchive {
         this.jarFile = jarFile;
     }
 
+    /**
+     * @deprecated
+     */
+    @Deprecated
     public ClassLoader loadJarClass(ClassLoader classLoader) throws ClassNotFoundException {
         Enumeration<JarEntry> entries = jarFile.entries();
-//        System.out.println("======================" + jarFile.getName());
 //        while (entries.hasMoreElements()) {
 //            JarEntry jarEntry = entries.nextElement();
 //            String jarPathName = jarEntry.getName();
@@ -37,12 +40,9 @@ public class JarArchive {
 //                continue;
 //            }
 ////            if (jarPathName != null && jarPathName.endsWith(".class")) {
-////                System.out.println("------->>>" + jarPathName);
 ////                classLoader.loadClass(jarPathName.replace("/", ".").substring(0, jarPathName.length() - 6));
 ////            }
 //            if (jarFile.getName().equals("E:\\etc\\demo1\\WEB-INF\\lib\\spring-boot-2.6.3.jar")) {
-////                System.out.println(jarEntry.getName());
-//                System.out.println(jarPathName);
 //            }
 //
 //        }
@@ -56,6 +56,10 @@ public class JarArchive {
         return classLoader;
     }
 
+    /**
+     * @deprecated
+     */
+    @Deprecated
     private void iterator(JarFile jarFile) throws IOException {
         Enumeration<JarEntry> entries = jarFile.entries();
         while (entries.hasMoreElements()) {
@@ -63,7 +67,6 @@ public class JarArchive {
             String jarPathName = jarEntry.getName();
             if (jarPathName.endsWith(".factories")) {
                 jarFile.getInputStream(jarEntry);
-                System.out.println("jarPathName:" + jarPathName);
             }
         }
     }
