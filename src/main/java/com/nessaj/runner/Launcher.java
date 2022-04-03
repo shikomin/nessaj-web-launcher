@@ -7,8 +7,6 @@ import com.nessaj.runner.utils.FilePathHandler;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
@@ -39,7 +37,6 @@ public class Launcher {
         System.out.println(Arrays.toString(urls));
         ClassLoader classLoader = createClassLoader();
         Thread.currentThread().setContextClassLoader(classLoader);
-//            loadClassFromJarFile(classLoader);
         MainClassRunner runner = new MainClassRunner(localDirectory, args);
         try {
             runner.run();
@@ -49,6 +46,10 @@ public class Launcher {
         System.out.println("done");
     }
 
+    /**
+     * @deprecated
+     */
+    @Deprecated
     private ClassLoader loadClassFromJarFile(ClassLoader classLoader) throws ClassNotFoundException {
         int size = jarArchives.size();
         for (int i = 0; i < size; i++) {

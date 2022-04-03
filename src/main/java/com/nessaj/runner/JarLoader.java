@@ -61,6 +61,10 @@ public class JarLoader {
         return urls.toArray(new URL[0]);
     }
 
+    /**
+     * @deprecated
+     */
+    @Deprecated
     private URL[] geneClassURLs(File path, List<URL> urls) throws MalformedURLException {
         File[] files = path.listFiles();
         int length = files.length;
