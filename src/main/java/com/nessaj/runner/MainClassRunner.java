@@ -15,6 +15,7 @@ import java.lang.reflect.Modifier;
  */
 public class MainClassRunner implements Runner {
 
+    private static final String SPRINGBOOT_APPLICATION_ANNOTATION = "org.springframework.boot.autoconfigure.SpringBootApplication";
     private final File path;
     private final String[] args;
     private Class<?> mainClass;
@@ -80,7 +81,7 @@ public class MainClassRunner implements Runner {
         Annotation[] annotations = candidate.getDeclaredAnnotations();
         int size = annotations.length;
         for (int i = 0; i < size; i++) {
-            if (annotations[i].annotationType().getName().equals("org.springframework.boot.autoconfigure.SpringBootApplication")) {
+            if (annotations[i].annotationType().getName().equals(SPRINGBOOT_APPLICATION_ANNOTATION)) {
                 return true;
             }
         }
