@@ -2,3 +2,4 @@ excutable-files/
 META-INF/
 .idea/
 target/
+out/
